@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/home/JohnChi/.phpenv/versions/8.3.26/bin/php",
+            "args": [
+                "/home/JohnChi/www/acil-backend/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
