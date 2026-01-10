@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         Role::firstOrCreate(['name' => 'admin']);
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@acil.com'],
+            ['email' => 'admin@acil.ng'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'),
