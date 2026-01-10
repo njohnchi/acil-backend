@@ -21,6 +21,8 @@ return [
 
     'allowed_origins' => [
         'http://localhost:8080',
+        'https://acil.ng',
+        'https://www.acil.ng',
     ],
 
     'allowed_origins_patterns' => [],
