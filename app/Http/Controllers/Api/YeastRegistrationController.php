@@ -148,21 +148,6 @@ class YeastRegistrationController extends Controller
      */
     public function destroy(YeastRegistration $yeastRegistration): JsonResponse
     {
-        // Delete associated files
-        $filePaths = [
-            $yeastRegistration->identification_document_path,
-            $yeastRegistration->certificates_path,
-            $yeastRegistration->passport_photograph_path,
-            $yeastRegistration->cv_path,
-            $yeastRegistration->supporting_documents_path,
-        ];
-
-        foreach ($filePaths as $filePath) {
-            if ($filePath && Storage::disk('public')->exists($filePath)) {
-                Storage::disk('public')->delete($filePath);
-            }
-        }
-
         $yeastRegistration->delete();
 
         return response()->json([

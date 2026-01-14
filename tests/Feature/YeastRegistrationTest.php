@@ -206,9 +206,15 @@ it('requires medical condition details when has_medical_condition is true', func
 });
 
 it('can list all registrations', function () {
+    // Create admin user with role
+    $admin = \App\Models\User::factory()->create();
+    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+    $admin->assignRole('admin');
+
     YeastRegistration::factory()->count(5)->create();
 
-    $response = $this->getJson('/api/yeast-registrations');
+    $response = $this->actingAs($admin, 'sanctum')
+        ->getJson('/api/yeast-registrations');
 
     $response->assertSuccessful()
         ->assertJson([
@@ -238,9 +244,15 @@ it('can list all registrations', function () {
 });
 
 it('can show a single registration', function () {
+    // Create admin user with role
+    $admin = \App\Models\User::factory()->create();
+    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+    $admin->assignRole('admin');
+
     $registration = YeastRegistration::factory()->create();
 
-    $response = $this->getJson("/api/yeast-registrations/{$registration->id}");
+    $response = $this->actingAs($admin, 'sanctum')
+        ->getJson("/api/yeast-registrations/{$registration->id}");
 
     $response->assertSuccessful()
         ->assertJson([
@@ -256,9 +268,15 @@ it('can show a single registration', function () {
 });
 
 it('can delete a registration', function () {
+    // Create admin user with role
+    $admin = \App\Models\User::factory()->create();
+    \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+    $admin->assignRole('admin');
+
     $registration = YeastRegistration::factory()->create();
 
-    $response = $this->deleteJson("/api/yeast-registrations/{$registration->id}");
+    $response = $this->actingAs($admin, 'sanctum')
+        ->deleteJson("/api/yeast-registrations/{$registration->id}");
 
     $response->assertSuccessful()
         ->assertJson([
@@ -267,4 +285,5 @@ it('can delete a registration', function () {
         ]);
 
     expect(YeastRegistration::find($registration->id))->toBeNull();
+    expect(YeastRegistration::withTrashed()->find($registration->id))->not->toBeNull();
 });

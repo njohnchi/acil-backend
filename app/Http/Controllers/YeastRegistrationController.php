@@ -258,23 +258,6 @@ class YeastRegistrationController extends Controller
      */
     public function destroy(YeastRegistration $yeastRegistration): RedirectResponse
     {
-        // Delete all associated files
-        if ($yeastRegistration->identification_document_path) {
-            Storage::disk('public')->delete($yeastRegistration->identification_document_path);
-        }
-        if ($yeastRegistration->certificates_path) {
-            Storage::disk('public')->delete($yeastRegistration->certificates_path);
-        }
-        if ($yeastRegistration->passport_photograph_path) {
-            Storage::disk('public')->delete($yeastRegistration->passport_photograph_path);
-        }
-        if ($yeastRegistration->cv_path) {
-            Storage::disk('public')->delete($yeastRegistration->cv_path);
-        }
-        if ($yeastRegistration->supporting_documents_path) {
-            Storage::disk('public')->delete($yeastRegistration->supporting_documents_path);
-        }
-
         $yeastRegistration->delete();
 
         return redirect()

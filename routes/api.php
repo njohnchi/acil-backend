@@ -12,5 +12,6 @@ Route::post('yeast-registrations', [YeastRegistrationController::class, 'store']
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('yeast-registrations', [YeastRegistrationController::class, 'index']);
-    Route::get('yeast-registrations/{id}', [YeastRegistrationController::class, 'show']);
+    Route::get('yeast-registrations/{yeastRegistration}', [YeastRegistrationController::class, 'show']);
+    Route::delete('yeast-registrations/{yeastRegistration}', [YeastRegistrationController::class, 'destroy']);
 });
