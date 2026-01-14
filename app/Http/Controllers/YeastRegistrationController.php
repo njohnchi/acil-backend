@@ -126,6 +126,9 @@ class YeastRegistrationController extends Controller
                 // H. Uploads
                 'documents' => [
                     'has_passport_photograph' => (bool) $yeastRegistration->passport_photograph_path,
+                    'passport_photograph_url' => $yeastRegistration->passport_photograph_path
+                        ? asset('storage/'.$yeastRegistration->passport_photograph_path)
+                        : null,
                     'has_cv' => (bool) $yeastRegistration->cv_path,
                     'has_supporting_documents' => (bool) $yeastRegistration->supporting_documents_path,
                 ],

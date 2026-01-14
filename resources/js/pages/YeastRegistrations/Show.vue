@@ -79,6 +79,7 @@ interface Registration {
     };
     documents: {
         has_passport_photograph: boolean;
+        passport_photograph_url: string | null;
         has_cv: boolean;
         has_supporting_documents: boolean;
     };
@@ -165,13 +166,25 @@ const downloadDocument = (documentType: string) => {
                 </div>
             </div>
 
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight">
-                    {{ registration.personal_information.full_name }}
-                </h1>
-                <p class="text-muted-foreground">
-                    Registration submitted on {{ registration.created_at }}
-                </p>
+            <div class="flex items-start gap-6">
+                <div
+                    v-if="registration.documents.passport_photograph_url"
+                    class="flex-shrink-0"
+                >
+                    <img
+                        :src="registration.documents.passport_photograph_url"
+                        :alt="`${registration.personal_information.full_name} - Passport Photograph`"
+                        class="h-32 w-32 rounded-lg border-2 border-border object-cover shadow-sm"
+                    />
+                </div>
+                <div class="flex-1">
+                    <h1 class="text-3xl font-bold tracking-tight">
+                        {{ registration.personal_information.full_name }}
+                    </h1>
+                    <p class="text-muted-foreground">
+                        Registration submitted on {{ registration.created_at }}
+                    </p>
+                </div>
             </div>
 
             <div class="grid gap-6">
