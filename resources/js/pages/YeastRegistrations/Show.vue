@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
-import { ArrowLeft, Download } from 'lucide-vue-next';
+import { ArrowLeft, Download, Edit, Trash2 } from 'lucide-vue-next';
 
 interface Registration {
     id: number;
@@ -115,6 +115,24 @@ const goBack = () => {
     router.visit('/yeast-registrations');
 };
 
+const editRegistration = () => {
+    router.visit(`/yeast-registrations/${props.registration.id}/edit`);
+};
+
+const deleteRegistration = () => {
+    if (
+        confirm(
+            `Are you sure you want to delete the registration for ${props.registration.personal_information.full_name}? This action cannot be undone.`,
+        )
+    ) {
+        router.delete(`/yeast-registrations/${props.registration.id}`, {
+            onSuccess: () => {
+                router.visit('/yeast-registrations');
+            },
+        });
+    }
+};
+
 const downloadDocument = (documentType: string) => {
     window.location.href = `/yeast-registrations/${props.registration.id}/download/${documentType}`;
 };
@@ -132,6 +150,19 @@ const downloadDocument = (documentType: string) => {
                     <ArrowLeft class="mr-2 h-4 w-4" />
                     Back to Registrations
                 </Button>
+                <div class="flex gap-2">
+                    <Button @click="editRegistration" variant="outline">
+                        <Edit class="mr-2 h-4 w-4" />
+                        Edit Registration
+                    </Button>
+                    <Button
+                        @click="deleteRegistration"
+                        variant="destructive"
+                    >
+                        <Trash2 class="mr-2 h-4 w-4" />
+                        Delete
+                    </Button>
+                </div>
             </div>
 
             <div>

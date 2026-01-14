@@ -9,8 +9,8 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { Download, Eye, FileText } from 'lucide-vue-next';
+import { Head, router } from '@inertiajs/vue3';
+import { Download, Eye, FileText, Edit, Trash2 } from 'lucide-vue-next';
 
 interface Registration {
     id: number;
@@ -59,6 +59,22 @@ const exportToExcel = () => {
 
 const viewRegistration = (id: number) => {
     router.visit(`/yeast-registrations/${id}`);
+};
+
+const editRegistration = (id: number) => {
+    router.visit(`/yeast-registrations/${id}/edit`);
+};
+
+const deleteRegistration = (id: number, fullName: string) => {
+    if (
+        confirm(
+            `Are you sure you want to delete the registration for ${fullName}? This action cannot be undone.`,
+        )
+    ) {
+        router.delete(`/yeast-registrations/${id}`, {
+            preserveScroll: true,
+        });
+    }
 };
 
 const goToPage = (url: string | null) => {
@@ -193,17 +209,43 @@ const goToPage = (url: string | null) => {
                                         {{ registration.created_at }}
                                     </td>
                                     <td class="p-3 text-center">
-                                        <Button
-                                            @click="
-                                                viewRegistration(
-                                                    registration.id,
-                                                )
-                                            "
-                                            variant="ghost"
-                                            size="sm"
-                                        >
-                                            <Eye class="h-4 w-4" />
-                                        </Button>
+                                        <div class="flex gap-1 justify-center">
+                                            <Button
+                                                @click="
+                                                    viewRegistration(
+                                                        registration.id,
+                                                    )
+                                                "
+                                                variant="ghost"
+                                                size="sm"
+                                            >
+                                                <Eye class="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                @click="
+                                                    editRegistration(
+                                                        registration.id,
+                                                    )
+                                                "
+                                                variant="ghost"
+                                                size="sm"
+                                            >
+                                                <Edit class="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                @click="
+                                                    deleteRegistration(
+                                                        registration.id,
+                                                        registration.full_name,
+                                                    )
+                                                "
+                                                variant="ghost"
+                                                size="sm"
+                                                class="text-destructive hover:text-destructive"
+                                            >
+                                                <Trash2 class="h-4 w-4" />
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
